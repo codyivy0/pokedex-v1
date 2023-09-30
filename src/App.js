@@ -6,7 +6,8 @@ function App() {
   const [party, setParty] = useState([]);
 
   const API_URL = "https://pokeapi.co/api/v2/pokemon/";
-
+  const samplePokemon = []
+  
   async function searchAPI(searchTerm) {
     try {
       const response = await fetch(`${API_URL}${searchTerm}`);
@@ -15,7 +16,7 @@ function App() {
       }
       const data = await response.json();
       setData(data);
-      setParty([data, data, data, data, data, data]);
+      setParty(prevData=> [...prevData, data]);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -30,7 +31,7 @@ function App() {
         }
         const data = await response.json();
         setData(data);
-        setParty([data, data, data, data, data, data]);
+        setParty(prevData=> [...prevData, data]);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -134,7 +135,7 @@ function PartyMember({ pokemon, id }) {
 
   return (
     <div className="party-member">
-      <p>{id + 1} {pokemonNameCapitalized}</p>
+      <p>{pokemonNameCapitalized}</p>
       <img
         className="sprite-small"
         src={pokemon.sprites.front_default}
