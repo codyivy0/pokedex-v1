@@ -6,22 +6,7 @@ function App() {
   const [party, setParty] = useState([]);
 
   const API_URL = "https://pokeapi.co/api/v2/pokemon/";
-  const samplePokemon = []
-  
-  async function searchAPI(searchTerm) {
-    try {
-      const response = await fetch(`${API_URL}${searchTerm}`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setData(data);
-      setParty(prevData=> [...prevData, data]);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -31,7 +16,7 @@ function App() {
         }
         const data = await response.json();
         setData(data);
-        setParty(prevData=> [...prevData, data]);
+
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -41,16 +26,48 @@ function App() {
     fetchData();
   }, []);
 
+  async function searchAPI(searchTerm) {
+    try {
+      const response = await fetch(`${API_URL}${searchTerm}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setData(data);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleAdd(pokemon) {
+    setParty((prevParty) => [...prevParty, pokemon]);
+  }
+  function handleClear() {
+    setParty([])
+  }
+  
   return (
     <div className="main">
       <NavBar onSearch={searchAPI} party={party} />
       <section className="pokemon-view">
-        {data ? <PokemonWindow pokemon={data} /> : <div>Loading...</div>}
+        {data ? (
+          <PokemonWindow
+            onClear={handleClear}
+            onAddPokemon={handleAdd}
+            party={party}
+            pokemon={data}
+          />
+        ) : (
+          <div>Loading...</div>
+        )}
         <PartyTab party={party} />
       </section>
     </div>
   );
 }
+
 
 function NavBar({ party, onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -81,7 +98,7 @@ function NavBar({ party, onSearch }) {
   );
 }
 
-function PokemonWindow({ pokemon }) {
+function PokemonWindow({ pokemon, onAddPokemon, party, onClear }) {
   // Check if pokemon.sprites and pokemon.sprites.front_default are defined
   if (!pokemon.sprites || !pokemon.sprites.front_default) {
     return <div className="tab pokemon-window">No Pokemon Found</div>;
@@ -110,7 +127,14 @@ function PokemonWindow({ pokemon }) {
         />
       </div>
       <div className="add-remove-pokemon">
-        <button className="btn">Add to Party</button>
+      {party.length > 0 ? <button className="btn" onClick={onClear}>Clear</button> : ""}
+        <button
+          onClick={() => onAddPokemon(pokemon)}
+          className={`btn ${party.length === 6 ? "disabled" : ""}`}
+        >
+          Add to Party
+        </button>
+        
       </div>
     </div>
   );
