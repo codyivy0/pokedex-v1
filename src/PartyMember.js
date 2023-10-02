@@ -4,7 +4,6 @@ export function PartyMember({ pokemon, id, onSearch }) {
   }
   const pokemonNameCapitalized =
     pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-    console.log(pokemon.id)
 
   return (
     <div onClick={()=>onSearch(pokemon.id)} className="party-member">

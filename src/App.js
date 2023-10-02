@@ -20,8 +20,8 @@ function App() {
         }
         const data = await response.json();
         setData(data);
+        console.log(data)
 
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -35,7 +35,6 @@ function App() {
   }
 
   async function searchAPI(searchTerm) {
-    console.log(searchTerm);
     try {
       const response = await fetch(`${API_URL}${searchTerm}`);
       if (!response.ok) {
@@ -44,7 +43,6 @@ function App() {
       const data = await response.json();
       setData(data);
 
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +53,6 @@ function App() {
   }
 
   function handleDelete(index) {
-    console.log(index);
     setParty((prevParty) => {
       return prevParty.filter((_, i) => i !== index);
     });
@@ -67,7 +64,7 @@ function App() {
 
   return (
     <div className="main">
-      <NavBar getRandom={RandomPokemon} onSearch={searchAPI} party={party} />
+      <NavBar getRandom={RandomPokemon} onSearch={searchAPI} party={party} home={searchAPI}/>
       <section className="pokemon-view">
         {data ? (
           <PokemonWindow

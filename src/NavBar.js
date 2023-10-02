@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function NavBar({ party, onSearch, getRandom }) {
+export function NavBar({ party, onSearch, getRandom, home }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   function handleSubmit(e) {
@@ -11,7 +11,7 @@ export function NavBar({ party, onSearch, getRandom }) {
 
   return (
     <nav className="nav-bar">
-      <button className="nav-link">Home</button>
+      <button className="nav-link" onClick={()=>home(1)}>Home</button>
       <button className="nav-link" onClick={getRandom}>RandomPokemon</button>
       <div className="search-window">
         <form onSubmit={handleSubmit}>
