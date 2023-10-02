@@ -1,7 +1,21 @@
+import { useEffect, useState } from "react";
+
 export function PokemonWindow({ pokemon, onAddPokemon, party, onClear, info }) {
+  const [loadingDots, setLoadingDots] = useState("");
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingDots((prevDots) => (prevDots === "..." ? "" : prevDots + "."));
+    }, 500); // Change the interval duration as needed
+
+    return () => clearInterval(interval);
+  }, []);
   // Check if pokemon.sprites and pokemon.sprites.front_default are defined
-  if (!pokemon.sprites || !pokemon.sprites.front_default || !info.flavor_text_entries ) {
-    return <div className="tab pokemon-window">Loading...</div>;
+  if (
+    !pokemon.sprites ||
+    !pokemon.sprites.front_default ||
+    !info.flavor_text_entries
+  ) {
+    return <div className="tab pokemon-window">Loading{loadingDots}</div>;
   }
   const colors = {
     fire: "#FF5733", // Bright red
@@ -18,7 +32,10 @@ export function PokemonWindow({ pokemon, onAddPokemon, party, onClear, info }) {
     flying: "#03A9F4", // Sky blue
     fighting: "#FF9800", // Orange
     normal: "#9E9E9E", // Gray
+    dark: "#333333", // Dark gray
+    ghost: "#6A0BFD", // Dark purple (you can adjust this)
   };
+  
 
   const pokemonTypes = pokemon.types.map((type) => type.type.name);
 
@@ -42,8 +59,7 @@ export function PokemonWindow({ pokemon, onAddPokemon, party, onClear, info }) {
       ? `0${pokemon.id}`
       : pokemon.id;
 
-  const flavorText = info.flavor_text_entries
-
+  const flavorText = info.flavor_text_entries;
 
   function findEnglishFlavorText(flavorTexts) {
     for (const entry of flavorTexts) {
@@ -56,7 +72,7 @@ export function PokemonWindow({ pokemon, onAddPokemon, party, onClear, info }) {
   }
   const englishFlavorText = findEnglishFlavorText(flavorText);
 
-  const cleanedText = englishFlavorText.replace(/[^\x20-\x7Eé’]/g, ' ');
+  const cleanedText = englishFlavorText.replace(/[^\x20-\x7Eé’]/g, " ");
 
   return (
     <div className="tab pokemon-window">
@@ -69,28 +85,37 @@ export function PokemonWindow({ pokemon, onAddPokemon, party, onClear, info }) {
             {typeList.join(" / ")}
           </p>
         </div>
-        <img
-          src={pokemon.sprites.front_default}
-          alt={pokemon.name}
-          className="pokemon-sprite"
-        />
+        <div className="image">
+          <img
+            src={pokemon.sprites.front_default}
+            alt={pokemon.name}
+            className="pokemon-sprite"
+          />
+        </div>
       </div>
       <div className="pokemon-info">
         <div className="info-left">
           <p>{cleanedText}</p>
-          
+
           <div className="stats">
             <h4>Base Stats</h4>
-            <p>HP: {pokemon.stats[0].base_stat}</p>
-            <p>Attack: {pokemon.stats[1].base_stat}</p>
-            <p>Defense: {pokemon.stats[2].base_stat}</p>
+            <div className="stat-pair">
+              <p>HP: {pokemon.stats[0].base_stat}</p>
+              <p>Speed: {pokemon.stats[5].base_stat}</p>
+            </div>
+            <div className="stat-pair">
+              <p>Attack: {pokemon.stats[1].base_stat}</p>
+              <p>Special Attack: {pokemon.stats[3].base_stat}</p>
+            </div>
+            <div className="stat-pair">
+              <p>Defense: {pokemon.stats[2].base_stat}</p>
+              <p>Special Defense: {pokemon.stats[4].base_stat}</p>
+            </div>
           </div>
-          
-
         </div>
         <div className="info-right">
           <p>Height: {pokemon.height * 10}cm</p>
-          <p>Weight: {Math.floor(pokemon.weight / 4.536)}lbs</p>
+          <p>Weight: {Math.floor(pokemon.weight / 4.536)} lbs</p>
         </div>
       </div>
       <div className="add-remove-pokemon">

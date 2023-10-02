@@ -88,26 +88,28 @@ body {
 .window-header {
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin: 1rem 0;
   
 }
-.window-header .header-left{
+.window-header .header-left {
   text-align: left;
   margin-left: 1rem;
+  margin-top: 2rem;
 }
 .window-header .pokemon-name {
   font-size: 28px;
   margin-bottom: 1rem;
 }
 #types {
-  text-shadow:
-    -1px -1px 0 black,
-    1px -1px 0 black,
-    -1px 1px 0 black,
+  font-size: 18px;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
     1px 1px 0 black;
   color: transparent;
 }
-
+.image {
+  background-color: var(--third-color);
+  border-radius: 50%;
+}
 .window-header img {
   height: 200px;
   width: 200px;
@@ -115,25 +117,34 @@ body {
 .pokemon-info {
   display: flex;
   justify-content: space-between;
-  
+  height: 100%;
 }
 .pokemon-info .info-left {
-  width: 50%;
+  width: 75%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 2rem;
 }
-.pokemon-info .info-left .stats {
- display: flex;
- flex-direction: column;
- gap: 1rem;
+.stat-pair {
+  display: flex;
+  gap: 1rem;
 }
 
+.pokemon-info .info-left .stats {
+  display: flex;
+  margin-top: auto;
+  flex-direction: column;
+  gap: 1rem;
+}
+.pokemon-info .info-left .stats h4 {
+  text-decoration: underline;
+}
 
 .pokemon-info .info-right {
   display: flex;
   flex-direction: column;
+  text-align: right;
 }
 
 .add-remove-pokemon {
@@ -181,6 +192,7 @@ body {
 .party-member {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: var(--primary-color);
   border-radius: 10px;
   padding: 1rem;
