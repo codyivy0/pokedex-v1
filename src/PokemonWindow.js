@@ -1,7 +1,7 @@
-export function PokemonWindow({ pokemon, onAddPokemon, party, onClear }) {
+export function PokemonWindow({ pokemon, onAddPokemon, party, onClear, info }) {
   // Check if pokemon.sprites and pokemon.sprites.front_default are defined
-  if (!pokemon.sprites || !pokemon.sprites.front_default) {
-    return <div className="tab pokemon-window">No Pokemon Found</div>;
+  if (!pokemon.sprites || !pokemon.sprites.front_default || !info.flavor_text_entries ) {
+    return <div className="tab pokemon-window">Loading...</div>;
   }
   const colors = {
     fire: "#FF5733", // Bright red
@@ -42,6 +42,22 @@ export function PokemonWindow({ pokemon, onAddPokemon, party, onClear }) {
       ? `0${pokemon.id}`
       : pokemon.id;
 
+  const flavorText = info.flavor_text_entries
+
+
+  function findEnglishFlavorText(flavorTexts) {
+    for (const entry of flavorTexts) {
+      if (entry.language.name === "en") {
+        return entry.flavor_text;
+      }
+    }
+    // Return a default value or handle the case when English flavor text is not found
+    return "English flavor text not found";
+  }
+  const englishFlavorText = findEnglishFlavorText(flavorText);
+
+  const cleanedText = englishFlavorText.replace(/[^\x20-\x7Eé’]/g, ' ');
+
   return (
     <div className="tab pokemon-window">
       <div className="window-header">
@@ -60,8 +76,22 @@ export function PokemonWindow({ pokemon, onAddPokemon, party, onClear }) {
         />
       </div>
       <div className="pokemon-info">
-        <div className="info-left">left</div>
-        <div className="info-right">right</div>
+        <div className="info-left">
+          <p>{cleanedText}</p>
+          
+          <div className="stats">
+            <h4>Base Stats</h4>
+            <p>HP: {pokemon.stats[0].base_stat}</p>
+            <p>Attack: {pokemon.stats[1].base_stat}</p>
+            <p>Defense: {pokemon.stats[2].base_stat}</p>
+          </div>
+          
+
+        </div>
+        <div className="info-right">
+          <p>Height: {pokemon.height * 10}cm</p>
+          <p>Weight: {Math.floor(pokemon.weight / 4.536)}lbs</p>
+        </div>
       </div>
       <div className="add-remove-pokemon">
         {party.length > 0 ? (

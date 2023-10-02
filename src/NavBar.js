@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-export function NavBar({ party, onSearch, getRandom, home }) {
+export function NavBar({ party, onSearch, getRandom, home, getCharacteristics }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
     onSearch(searchTerm);
+    getCharacteristics(searchTerm)
     setSearchTerm("");
   }
 

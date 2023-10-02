@@ -89,7 +89,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-  border: 1px solid var(--primary-color);
+  
 }
 .window-header .header-left{
   text-align: left;
@@ -99,7 +99,14 @@ body {
   font-size: 28px;
   margin-bottom: 1rem;
 }
-
+#types {
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black;
+  color: transparent;
+}
 
 .window-header img {
   height: 200px;
@@ -107,8 +114,26 @@ body {
 }
 .pokemon-info {
   display: flex;
-  justify-content: space-around;
-  border: 1px solid black;
+  justify-content: space-between;
+  
+}
+.pokemon-info .info-left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+.pokemon-info .info-left .stats {
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+}
+
+
+.pokemon-info .info-right {
+  display: flex;
+  flex-direction: column;
 }
 
 .add-remove-pokemon {
