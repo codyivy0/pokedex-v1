@@ -130,6 +130,14 @@ body {
   width: 20%;
   box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5)
 }
+.party-name{
+  text-align: right;
+  color: var(--primary-color);
+  border-bottom:2px solid var(--primary-color) ;
+}
+.party-member-container {
+  position: relative;
+}
 
 .party-member {
   display: flex;
@@ -140,6 +148,7 @@ body {
   color: var(--secondary-color);
   height: 4rem;
   cursor: pointer;
+ 
 }
 .party-member:hover {
   opacity: 0.8;
@@ -147,7 +156,20 @@ body {
 .party-member:active {
   transform: scale(0.95);
 }
+
 .sprite-small {
   height: 100px;
   width: 100px;
+}
+.delete-btn{
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  cursor: pointer;
+}
+.delete-btn:hover{
+  background-color: black;
 }

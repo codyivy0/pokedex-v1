@@ -1,12 +1,13 @@
-export function PartyMember({ pokemon, id }) {
+export function PartyMember({ pokemon, id, onSearch }) {
   if (!pokemon) {
     return <div>Loading...</div>;
   }
   const pokemonNameCapitalized =
     pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+    console.log(pokemon.id)
 
   return (
-    <div className="party-member">
+    <div onClick={()=>onSearch(pokemon.id)} className="party-member">
       <p>{pokemonNameCapitalized}</p>
       <img
         className="sprite-small"

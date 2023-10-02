@@ -9,6 +9,7 @@ function App() {
   const [party, setParty] = useState([]);
 
   const API_URL = "https://pokeapi.co/api/v2/pokemon/";
+  const randomNumber = Math.floor(Math.random() * (1015 - 1 + 1)) + 1;
 
   useEffect(() => {
     async function fetchData() {
@@ -29,7 +30,12 @@ function App() {
     fetchData();
   }, []);
 
+  function RandomPokemon() {
+    searchAPI(randomNumber);
+  }
+
   async function searchAPI(searchTerm) {
+    console.log(searchTerm);
     try {
       const response = await fetch(`${API_URL}${searchTerm}`);
       if (!response.ok) {
@@ -47,13 +53,21 @@ function App() {
   function handleAdd(pokemon) {
     setParty((prevParty) => [...prevParty, pokemon]);
   }
+
+  function handleDelete(index) {
+    console.log(index);
+    setParty((prevParty) => {
+      return prevParty.filter((_, i) => i !== index);
+    });
+  }
+
   function handleClear() {
     setParty([]);
   }
 
   return (
     <div className="main">
-      <NavBar onSearch={searchAPI} party={party} />
+      <NavBar getRandom={RandomPokemon} onSearch={searchAPI} party={party} />
       <section className="pokemon-view">
         {data ? (
           <PokemonWindow
@@ -65,7 +79,12 @@ function App() {
         ) : (
           <div>Loading...</div>
         )}
-        <PartyTab party={party} />
+        <PartyTab
+          onSearch={searchAPI}
+          onDelete={handleDelete}
+          key="partyTab"
+          party={party}
+        />
       </section>
     </div>
   );
